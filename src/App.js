@@ -20,6 +20,21 @@ class BooksApp extends Component {
     showSearchPage: false
   }
 
+  //Criação da função responsavel por buscar os dados na API
+  /*
+  - componentDidMount() está ligado a um momento específico do ciclo de vida do componente e é executado
+   assim que o componente é adicionado ao DOM. Esse método deve ser utilizado se você estiver buscando 
+   dados remotos ou realizando requisições   
+  */
+
+ componentDidMount() {
+    this.setState({ loading: true })
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState({ books, loading: false })
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -36,7 +51,11 @@ class BooksApp extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+
+                <input 
+                  type="text" 
+                  placeholder="Search by title or author"
+                />
 
               </div>
             </div>
