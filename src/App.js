@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom';
 import * as BooksAPI from './utils/BooksAPI';
+import { Route } from 'react-router-dom';
+
 
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
@@ -9,12 +10,6 @@ import './App.css'
 // Pagina principal da aplicação responsavel por gerenciar, controlar e chamar os componentes e as rotas.
 class BooksApp extends Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
     //State de books
     books: [],
     showSearchPage: false
@@ -27,6 +22,11 @@ class BooksApp extends Component {
    dados remotos ou realizando requisições   
   */
 
+  // Este método é responsavel por mudar o estado para mostrar o gif de loading...
+ loading = (status) => {
+    this.setState({ loading: status });
+ }
+
  componentDidMount() {
     this.setState({ loading: true })
     BooksAPI.getAll()
@@ -34,6 +34,14 @@ class BooksApp extends Component {
         this.setState({ books, loading: false })
     })
   }
+
+  //Esse método é responsavel por atualizar a instancia do livro
+	alterBook = (book) => {
+		const index = index => index.id !== book.id;
+		const books = this.state.books.filter(index).concat(book)
+		this.setState({ books });
+	}
+
 
   render() {
     return (
