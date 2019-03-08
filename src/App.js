@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Route } from 'react-router-dom';
 import * as BooksAPI from './utils/BooksAPI';
 
@@ -7,7 +7,7 @@ import './App.css'
 
 
 // Pagina principal da aplicação responsavel por gerenciar, controlar e chamar os componentes e as rotas.
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
