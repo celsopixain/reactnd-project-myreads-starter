@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './utils/BooksAPI';
 import { Route } from 'react-router-dom';
-
-
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
-
 
 // Pagina principal da aplicação responsavel por gerenciar, controlar e chamar os componentes e as rotas.
 class BooksApp extends Component {
@@ -49,7 +46,11 @@ class BooksApp extends Component {
         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+              <button className="close-search" 
+                      onClick={() => this.setState({ showSearchPage: false })
+                      }>Close
+              </button>
+
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
