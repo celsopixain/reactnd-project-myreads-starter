@@ -12,34 +12,6 @@ class BooksApp extends Component {
     showSearchPage: false
   }
 
-  //Criação da função responsavel por buscar os dados na API
-  /*
-  - componentDidMount() está ligado a um momento específico do ciclo de vida do componente e é executado
-   assim que o componente é adicionado ao DOM. Esse método deve ser utilizado se você estiver buscando 
-   dados remotos ou realizando requisições   
-  */
-
-  // Este método é responsavel por mudar o estado para mostrar o gif de loading...
- loading = (status) => {
-    this.setState({ loading: status });
- }
-
- componentDidMount() {
-    this.setState({ loading: true })
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState({ books, loading: false })
-    })
-  }
-
-  //Esse método é responsavel por atualizar a instancia do livro
-	alterBook = (book) => {
-		const index = index => index.id !== book.id;
-		const books = this.state.books.filter(index).concat(book)
-		this.setState({ books });
-	}
-
-
   render() {
     return (
       <div className="app">
@@ -52,14 +24,7 @@ class BooksApp extends Component {
               </button>
 
               <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
+                {/**/}
 
                 <input 
                   type="text" 
