@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { update, getAll } from '../../utils/BooksAPI'
-import Shelf from '../../components/Shelf/Shelf'
 import {Link} from 'react-router-dom'
+import Shelf from '../../components/Shelf/Shelf'
+import {getAll, update} from '../../utils/BooksAPI'
 
-class Home extends Component {
+
+export default class Home extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			books: []
+			books: [],
+			showSearchPage: false
 		}
 	}
 
@@ -28,7 +30,6 @@ class Home extends Component {
 	updateHandler(book, shelf){
 		this.updateBook(book, shelf)
 		update(book, shelf).then(() => console.log('Book update done'))
-		// ^ takes a lot of time so better for checking
 	}
 
 	updateBook(book, shelf){
@@ -60,11 +61,12 @@ class Home extends Component {
 				</div>
 
 				<div className="open-search">
-					<Link to='/search'>Add a book</Link>
+					<Link to='/search'>
+					<button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button></Link>
+					
+
 				</div>
 			</div>
 		)
 	}
 }
-
-export default Home

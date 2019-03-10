@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { search, update, getAll } from '../../utils/BooksAPI'
 import {Link} from 'react-router-dom'
+import { search, update, getAll } from '../../utils/BooksAPI'
 import Book from '../../components/Book/Book'
 
 class Search extends Component {
@@ -18,21 +18,22 @@ class Search extends Component {
 		this.fetchBooks()
 	}
 
+	fetchBooks() {
+		getAll().then((data) => {
+			console.log('all books loaded')
+			this.setState({ allBooks: data })
+		})
+	}
+
 	setSearchState(books, curReq){
 		if (curReq < this.state.maxReq){
+			console.log('a response was invalidated')
 			return;
 		}
 		this.setState({books: books, maxReq: curReq})
 	}
 
-	fetchBooks() {
-		getAll().then((data) => {
-			this.setState({ allBooks: data })
-		})
-	}
-
 	doSearch(term){
-		// attaching IDs to request, to solve async stale data issues
 		let curReq = this.state.reqCount + 1
 		this.setState({reqCount: curReq})
 	
@@ -43,6 +44,7 @@ class Search extends Component {
 		search(term).then((books) => {
 			this.setSearchState(books, curReq)
 		}).catch (() => {
+			console.log('search failed')
 			this.setSearchState([], curReq)
 		})
 	}
@@ -54,6 +56,7 @@ class Search extends Component {
 
 	updateHandler(book, shelf) {
 		this.updateBook(book, shelf)
+		update(book, shelf).then(() => console.log('Book update done'))
 	}
 
 	updateBook(book, shelf) {
@@ -66,18 +69,17 @@ class Search extends Component {
 			}
 		})
 		if (!found){
-			// add new book
-			books[book.id] = JSON.parse(JSON.stringify(book)) // clone
+			books[book.id] = JSON.parse(JSON.stringify(book)) 
 			books[book.id].shelf = shelf
 		}
 		this.setState({ allBooks: books })
 	}
 
-	// gets book from allBooks collection
 	getBook(searchBook){
 		let books = this.state.allBooks;
 		for (let key in books){
 			if (books[key].id === searchBook.id){
+				console.log('match in search books and own books')
 				return books[key]
 			}
 		}

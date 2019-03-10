@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 
 class Book extends Component {
-    //Atualiza a consulta de Books
- 	handleBookUpdate(evt){
+	handleBookUpdate(evt){
 		const shelf = evt.target.value
 		this.props.handler(this.props, shelf)
 	}
 
-    //Renderiza o componente Book
 	render(){
 		const shelf = this.props.shelf ? this.props.shelf : 'none'
+
 		return (
 			<li>
 				<div className="book">
