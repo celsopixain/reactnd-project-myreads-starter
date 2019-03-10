@@ -20,14 +20,12 @@ class Search extends Component {
 
 	fetchBooks() {
 		getAll().then((data) => {
-			console.log('all books loaded')
 			this.setState({ allBooks: data })
 		})
 	}
 
 	setSearchState(books, curReq){
 		if (curReq < this.state.maxReq){
-			console.log('a response was invalidated')
 			return;
 		}
 		this.setState({books: books, maxReq: curReq})
@@ -44,7 +42,6 @@ class Search extends Component {
 		search(term).then((books) => {
 			this.setSearchState(books, curReq)
 		}).catch (() => {
-			console.log('search failed')
 			this.setSearchState([], curReq)
 		})
 	}
@@ -56,7 +53,6 @@ class Search extends Component {
 
 	updateHandler(book, shelf) {
 		this.updateBook(book, shelf)
-		update(book, shelf).then(() => console.log('Book update done'))
 	}
 
 	updateBook(book, shelf) {
@@ -79,7 +75,6 @@ class Search extends Component {
 		let books = this.state.allBooks;
 		for (let key in books){
 			if (books[key].id === searchBook.id){
-				console.log('match in search books and own books')
 				return books[key]
 			}
 		}
@@ -88,15 +83,21 @@ class Search extends Component {
 
 	render() {
 		let books = this.state.books.map((book) => (
-			<Book key={book.id} {...this.getBook(book)} handler={this.updateHandler.bind(this)} />
+			<Book key={book.id} 
+				{...this.getBook(book)} 
+				handler={this.updateHandler.bind(this)} 
+			/>
 		))
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
 					<Link className="close-search" to='/'>Close</Link>
 					<div className="search-books-input-wrapper">
-						<input onChange={this.inputChange.bind(this)} type="text" 
-							placeholder="Search by title or author" />
+						<input 
+							onChange={this.inputChange.bind(this)} 
+							type="text" 
+							placeholder="Pesquisa por título ou autor" 
+						/>
 					</div>
 				</div>
 				<div className="search-books-results">
