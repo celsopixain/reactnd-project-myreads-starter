@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { search, update, getAll } from '../../utils/BooksAPI'
 import Book from '../../components/Book/Book'
 
-class Search extends Component {
+export default class Search extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -20,12 +20,14 @@ class Search extends Component {
 
 	fetchBooks() {
 		getAll().then((data) => {
+			console.log('all books loaded')
 			this.setState({ allBooks: data })
 		})
 	}
 
 	setSearchState(books, curReq){
 		if (curReq < this.state.maxReq){
+			console.log('Resposta inválida!')
 			return;
 		}
 		this.setState({books: books, maxReq: curReq})
@@ -40,8 +42,10 @@ class Search extends Component {
 			return;
 		}
 		search(term).then((books) => {
+			console.log('Pesquisa realizada')  
 			this.setSearchState(books, curReq)
 		}).catch (() => {
+			console.log('Pesquisa falhou')
 			this.setSearchState([], curReq)
 		})
 	}
@@ -49,10 +53,12 @@ class Search extends Component {
 	inputChange(evt){
 		const term = evt.target.value.trim()
 		this.doSearch(term)
+		console.log('term ' + term)
 	}
 
 	updateHandler(book, shelf) {
 		this.updateBook(book, shelf)
+		update(book, shelf).then(() => console.log('Livro atualizado com sucesso!'))
 	}
 
 	updateBook(book, shelf) {
@@ -73,31 +79,34 @@ class Search extends Component {
 
 	getBook(searchBook){
 		let books = this.state.allBooks;
+		let achou = false
 		for (let key in books){
 			if (books[key].id === searchBook.id){
+				console.log('Recebe a lista de livros')
+				achou = true
 				return books[key]
 			}
 		}
-		return searchBook
+		if (achou === true)
+			return searchBook
 	}
 
 	render() {
 		let books = this.state.books.map((book) => (
-			<Book key={book.id} 
-				{...this.getBook(book)} 
-				handler={this.updateHandler.bind(this)} 
+			<Book key=	{book.id} 
+						{...this.getBook(book)} 
+						handler={this.updateHandler.bind(this)} 
 			/>
 		))
+		console.log('this books ' + this.books)
+
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
 					<Link className="close-search" to='/'>Close</Link>
 					<div className="search-books-input-wrapper">
-						<input 
-							onChange={this.inputChange.bind(this)} 
-							type="text" 
-							placeholder="Pesquisa por título ou autor" 
-						/>
+						<input onChange={this.inputChange.bind(this)} type="text" 
+							placeholder="Pesquisar por título ou autor" />
 					</div>
 				</div>
 				<div className="search-books-results">
@@ -109,5 +118,3 @@ class Search extends Component {
 		)
 	}
 }
-
-export default Search
