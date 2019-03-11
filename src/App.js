@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component} from 'react'
 import {
   BrowserRouter as Router,
   Route
@@ -9,7 +9,7 @@ import Home from './screens/Home/Home'
 import Search from './screens/Search/Search'
 
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   render() {
     return (
       <Router>
