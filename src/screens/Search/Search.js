@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { search, update, getAll } from '../../BooksAPI'
 import Book from '../../components/Book/Book'
 
-export default class Search extends Component {
+class Search extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -20,22 +20,20 @@ export default class Search extends Component {
 
 	fetchBooks() {
 		getAll().then((data) => {
-			console.log('all books loaded')
+			console.log('Todos os livros foram carregados')
 			this.setState({ allBooks: data })
 		})
 	}
 
 	setSearchState(books, curReq){
 		if (curReq < this.state.maxReq){
-			console.log('a response was invalidated')
-			// old request, invalidate
+			console.log('Consulta inválida')
 			return;
 		}
 		this.setState({books: books, maxReq: curReq})
 	}
 
 	doSearch(term){
-		// attaching IDs to request, to solve async stale data issues
 		let curReq = this.state.reqCount + 1
 		this.setState({reqCount: curReq})
 	
@@ -44,13 +42,11 @@ export default class Search extends Component {
 			return;
 		}
 		search(term).then((books) => {
-			console.log('search done')  // again takes a lot of time so
+			console.log('search done')  
 			this.setSearchState(books, curReq)
 		}).catch (() => {
 			console.log('search failed')
 			this.setSearchState([], curReq)
-			// happens sometimes, maybe on invalid terms
-			// REQ: Invalid queries are handled and prior search results are not shown.
 		})
 	}
 
@@ -62,7 +58,6 @@ export default class Search extends Component {
 	updateHandler(book, shelf) {
 		this.updateBook(book, shelf)
 		update(book, shelf).then(() => console.log('Book update done'))
-		// ^ takes a lot of time so better for checking
 	}
 
 	updateBook(book, shelf) {
@@ -75,14 +70,14 @@ export default class Search extends Component {
 			}
 		})
 		if (!found){
-			// add new book
-			books[book.id] = JSON.parse(JSON.stringify(book)) // clone
+			// Adiciona um novo Livro
+			books[book.id] = JSON.parse(JSON.stringify(book)) 
 			books[book.id].shelf = shelf
 		}
 		this.setState({ allBooks: books })
 	}
 
-	// gets book from allBooks collection
+	// Recebe a coleção de todos os livros
 	getBook(searchBook){
 		let books = this.state.allBooks;
 		for (let key in books){
@@ -103,7 +98,9 @@ export default class Search extends Component {
 				<div className="search-books-bar">
 					<Link className="close-search" to='/'>Close</Link>
 					<div className="search-books-input-wrapper">
-						<input onChange={this.inputChange.bind(this)} type="text" 
+						<input 
+							onChange={this.inputChange.bind(this)} 
+							type="text" 
 							placeholder="Pesquisar por título ou autor" />
 					</div>
 				</div>
@@ -116,3 +113,5 @@ export default class Search extends Component {
 		)
 	}
 }
+
+export default Search
