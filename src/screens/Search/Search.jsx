@@ -103,8 +103,10 @@ export default class Search extends Component {
 				<div className="search-books-bar">
 					<Link className="close-search" to='/'>Close</Link>
 					<div className="search-books-input-wrapper">
-						<input onChange={this.inputChange.bind(this)} type="text" 
-							placeholder="Search by title or author" />
+						<input 
+							onChange={this.inputChange.bind(this)} 
+							type="text" 
+							placeholder="Pesquisar por título ou autor" />
 					</div>
 				</div>
 				<div className="search-books-results">
