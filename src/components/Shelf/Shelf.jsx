@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 
 import Book from '../Book/Book'
 
-class Shelf extends Component {
+
+export default class Shelf extends Component {
 	render() {
 		let books = this.props.books.map((book) => (
 			<Book key={book.id} {...book} handler={this.props.handler}/>
@@ -19,5 +20,3 @@ class Shelf extends Component {
 		)
 	}
 }
-
-export default Shelf

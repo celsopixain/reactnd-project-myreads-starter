@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
-class Book extends Component {
+
+export default class Book extends Component {
 	handleBookUpdate(evt){
 		const shelf = evt.target.value
 		this.props.handler(this.props, shelf)
+		// ^ fine sending this.props as only book.id is used for update
 	}
 
 	render(){
@@ -37,5 +39,3 @@ class Book extends Component {
 		)
 	}
 }
-
-export default Book
